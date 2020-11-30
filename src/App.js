@@ -76,8 +76,11 @@ function Content() {
     
     function calculate() {
         const copy = copyBoard(board);
-        solve(copy, size, charMap);
-        setBoard(copy);
+        if (solve(copy, size, charMap) === true) {
+            setBoard(copy);
+        } else {
+            alert("This board is unsolvable!");
+        }
     }
     
     function clear() {
