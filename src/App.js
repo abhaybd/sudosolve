@@ -37,6 +37,18 @@ function Cell(props) {
                   value={value}/>;
 }
 
+function copyBoard(board) {
+    const newBoard = [];
+    for (let row of board) {
+        const newRow = [];
+        for (let cell of row) {
+            newRow.push(cell);
+        }
+        newBoard.push(newRow);
+    }
+    return newBoard;
+}
+
 function Content() {
     function createNewBoard(size) {
         const board = [];
@@ -63,7 +75,9 @@ function Content() {
     }
     
     function calculate() {
-        solve(board, size, charMap);
+        const copy = copyBoard(board);
+        solve(copy, size, charMap);
+        setBoard(copy);
     }
     
     function clear() {
@@ -80,15 +94,8 @@ function Content() {
         if (value in charMap) {
             let index = charMap[value];
             if (value === "" || (index > 0 && index <= size)) {
-                board[row][col] = value.toString();
-                const newBoard = [];
-                for (let row of board) {
-                    const newRow = [];
-                    for (let cell of row) {
-                        newRow.push(cell);
-                    }
-                    newBoard.push(newRow);
-                }
+                const newBoard = copyBoard(board);
+                newBoard[row][col] = value.toString();
                 setBoard(newBoard);
             }
         }
