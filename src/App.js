@@ -7,7 +7,34 @@ const maxSize = 5;
 
 const options = [];
 for (let i = minSize; i <= maxSize; i++) {
-    options.push(i*i);
+    options.push(i * i);
+}
+
+function Cell(props) {
+    let row = props.row;
+    let col = props.col;
+    let value = props.value;
+
+    let classes = [];
+    const sqrSize = Math.sqrt(props.size);
+    if (row !== 0 && row % sqrSize === 0) {
+        classes.push("border-row");
+    }
+    if (col !== 0 && col % sqrSize === 0) {
+        classes.push("border-col");
+    }
+
+    if (value && value !== "") {
+        classes.push("filled");
+    }
+
+    const className = classes.join(" ");
+
+    return <input type="text"
+                  className={className}
+                  key={row.toString() + "," + col.toString()}
+                  onChange={e => props.cellChanged(row, col, e.target.value)}
+                  value={value}/>;
 }
 
 function Content() {
@@ -26,7 +53,7 @@ function Content() {
     const [size, setSize] = useState(9);
     const [board, setBoard] = useState(createNewBoard(size));
 
-    const charMap = {"":0};
+    const charMap = {"": 0};
     for (let i = 1; i <= size; i++) {
         if (i < 10) {
             charMap[i] = i;
@@ -39,6 +66,10 @@ function Content() {
         solve(board, size, charMap);
     }
     
+    function clear() {
+        setBoard(createNewBoard(size));
+    }
+
     function sizeChange(event) {
         setSize(event.target.value);
         setBoard(createNewBoard(event.target.value));
@@ -69,10 +100,16 @@ function Content() {
                 <select value={size} onChange={sizeChange}>
                     {options.map(size => <option key={size} value={size}>{size}x{size}</option>)}
                 </select>
-                <button onClick={calculate}>Solve!</button>
             </div>
             <div id="board">
-                {board.map((row, i) => <React.Fragment key={i}>{row.map((col, j) => <input type="text" key={i.toString() + j.toString()} onChange={e => cellChanged(i, j, e.target.value)} value={board[i][j]}/>)}<br /></React.Fragment>)}
+                {board.map((row, i) => <div className="row" key={i}>{row.map((val, j) => <Cell key={i * size + j} row={i}
+                                                                                          col={j} value={val}
+                                                                                          size={size}
+                                                                                          cellChanged={cellChanged}/>)}</div>)}
+            </div>
+            <div id="buttons">
+                <button onClick={calculate}>Solve!</button>
+                <button onClick={clear}>Clear board</button>
             </div>
         </div>
     );
@@ -85,7 +122,9 @@ function App() {
                 <h1>
                     SudoSolve®
                 </h1>
-                <Content/>
+                <div className="panel">
+                    <Content/>
+                </div>
             </header>
             <div id="footer">
                 Made by <a href="https://www.github.com/abhaybd">Abhay Deshpande</a>
