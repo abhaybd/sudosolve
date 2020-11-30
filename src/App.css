@@ -52,11 +52,33 @@ a {
   color: white;
 }
 
-#board > input {
+#board {
+  line-height: 0;
+}
+
+.row > input {
   width: 3ch;
   height: 3ch;
   text-align: center;
-  margin: 0;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.row {
+  padding: 0;
+}
+
+.border-row {
+  margin-top: 5px;
+}
+
+.border-col {
+  margin-left: 5px;
+}
+
+.filled {
+  /*background-color: lightgray;*/
+  background: #e3e3e3;
 }
 
 #buttons {

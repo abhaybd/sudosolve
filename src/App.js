@@ -9,6 +9,33 @@ for (let i = minSize; i <= maxSize; i++) {
     options.push(i * i);
 }
 
+function Cell(props) {
+    let row = props.row;
+    let col = props.col;
+    let value = props.value;
+
+    let classes = [];
+    const sqrSize = Math.sqrt(props.size);
+    if (row !== 0 && row % sqrSize === 0) {
+        classes.push("border-row");
+    }
+    if (col !== 0 && col % sqrSize === 0) {
+        classes.push("border-col");
+    }
+
+    if (value && value !== "") {
+        classes.push("filled");
+    }
+
+    const className = classes.join(" ");
+
+    return <input type="text"
+                  className={className}
+                  key={row.toString() + "," + col.toString()}
+                  onChange={e => props.cellChanged(row, col, e.target.value)}
+                  value={value}/>;
+}
+
 function Content() {
     function createNewBoard(size) {
         const board = [];
@@ -74,10 +101,10 @@ function Content() {
                 </select>
             </div>
             <div id="board">
-                {board.map((row, i) => <React.Fragment key={i}>{row.map((col, j) => <input type="text"
-                                                                                           key={i.toString() + j.toString()}
-                                                                                           onChange={e => cellChanged(i, j, e.target.value)}
-                                                                                           value={board[i][j]}/>)}<br/></React.Fragment>)}
+                {board.map((row, i) => <div className="row" key={i}>{row.map((val, j) => <Cell key={i * size + j} row={i}
+                                                                                          col={j} value={val}
+                                                                                          size={size}
+                                                                                          cellChanged={cellChanged}/>)}</div>)}
             </div>
             <div id="buttons">
                 <button onClick={calculate}>Solve!</button>
