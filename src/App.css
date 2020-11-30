@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -35,4 +35,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+#footer {
+  text-align: center;
+  font-size: 0.8em;
+  font-family: "Alata", Arial, sans-serif;
+  position: fixed;
+  bottom: 25px;
+  color: white;
+  left: 0;
+  right: 0;
+}
+
+a {
+  color: white;
+}
+
+#board > input {
+  width: 3ch;
 }
