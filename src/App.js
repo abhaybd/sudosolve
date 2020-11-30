@@ -82,7 +82,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <h1>
-                    SudoSolve
+                    SudoSolve®
                 </h1>
                 <Content/>
             </header>
