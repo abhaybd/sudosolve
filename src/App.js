@@ -6,7 +6,7 @@ const maxSize = 5;
 
 const options = [];
 for (let i = minSize; i <= maxSize; i++) {
-    options.push(i*i);
+    options.push(i * i);
 }
 
 function Content() {
@@ -25,7 +25,7 @@ function Content() {
     const [size, setSize] = useState(9);
     const [board, setBoard] = useState(createNewBoard(size));
 
-    const charMap = {"":0};
+    const charMap = {"": 0};
     for (let i = 1; i <= size; i++) {
         if (i < 10) {
             charMap[i] = i;
@@ -36,6 +36,10 @@ function Content() {
 
     function calculate() {
         // TODO: Solve the sudoku board
+    }
+
+    function clear() {
+        setBoard(createNewBoard(size));
     }
 
     function sizeChange(event) {
@@ -68,10 +72,16 @@ function Content() {
                 <select value={size} onChange={sizeChange}>
                     {options.map(size => <option key={size} value={size}>{size}x{size}</option>)}
                 </select>
-                <button onClick={calculate}>Solve!</button>
             </div>
             <div id="board">
-                {board.map((row, i) => <React.Fragment key={i}>{row.map((col, j) => <input type="text" key={i.toString() + j.toString()} onChange={e => cellChanged(i, j, e.target.value)} value={board[i][j]}/>)}<br /></React.Fragment>)}
+                {board.map((row, i) => <React.Fragment key={i}>{row.map((col, j) => <input type="text"
+                                                                                           key={i.toString() + j.toString()}
+                                                                                           onChange={e => cellChanged(i, j, e.target.value)}
+                                                                                           value={board[i][j]}/>)}<br/></React.Fragment>)}
+            </div>
+            <div id="buttons">
+                <button onClick={calculate}>Solve!</button>
+                <button onClick={clear}>Clear board</button>
             </div>
         </div>
     );
@@ -84,7 +94,9 @@ function App() {
                 <h1>
                     SudoSolve®
                 </h1>
-                <Content/>
+                <div className="panel">
+                    <Content/>
+                </div>
             </header>
             <div id="footer">
                 Made by <a href="https://www.github.com/abhaybd">Abhay Deshpande</a>
