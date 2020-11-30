@@ -1,5 +1,6 @@
 import './App.css';
 import React, {useState} from "react";
+import {solve} from './solve.js';
 
 const minSize = 2;
 const maxSize = 5;
@@ -33,11 +34,11 @@ function Content() {
             charMap[String.fromCharCode(55 + i)] = i;
         }
     }
-
+    
     function calculate() {
-        // TODO: Solve the sudoku board
+        solve(board, size, charMap);
     }
-
+    
     function sizeChange(event) {
         setSize(event.target.value);
         setBoard(createNewBoard(event.target.value));
