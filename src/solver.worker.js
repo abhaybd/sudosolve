@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-importScripts("/solve2.js");
+importScripts("/solve.js");
 
 onmessage = function (e) {
     const {board, charMap} = e.data;
