@@ -1,6 +1,4 @@
-export function solve(board, size, charMap) {
-    //console.log("BOARD " + board);
-    //console.log("3, 0 " + getValidChars(3, 0));
+export function solve(board, size, charMap, invertedCharMap) {
     var count = 0;
     var solved = true;
     for (let i = 0; i < size; i++) {
@@ -11,11 +9,13 @@ export function solve(board, size, charMap) {
 
                 // Try each possible valid character for this cell, recurse, and undo the change
                 var isValidChar = getValidChars(i, j, board, size, charMap);
+                if (isValidChar.length === 0) {
+                    return false;
+                }
                 for (let k = 0; k < isValidChar.length; k++) {
                     if (isValidChar[k]) {
-                        board[i][j] = getKeyByValue(charMap, k + 1);
-                        //console.log("key " + board[i][j]);
-                        var result = solve(board, size, charMap);
+                        board[i][j] = invertedCharMap[k];
+                        var result = solve(board, size, charMap, invertedCharMap);
 
                         // If this change resulted in a solution for the entire board, stop recursing
                         if (result === true) {
@@ -35,7 +35,6 @@ function getValidChars(row, col, board, size, charMap) {
     for (let i = 0; i < size; i++) {
         isValid.push(true);
     }
-    //console.log("before " + isValid);
 
     // All used numbers in this row and this column are invalid
     for (let i = 0; i < size; i++) {
@@ -60,8 +59,4 @@ function getValidChars(row, col, board, size, charMap) {
     }
 
     return isValid;
-}
-
-function getKeyByValue(map, value) {
-    return Object.keys(map).find(key => map[key] === value);
 }

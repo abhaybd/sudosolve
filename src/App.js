@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState} from "react";
-import {solve} from './solve.js';
+import {solve} from './solve2.js';
 
 const minSize = 2;
 const maxSize = 5;
@@ -76,10 +76,11 @@ function Content() {
     
     function calculate() {
         const copy = copyBoard(board);
-        if (solve(copy, size, charMap) === true) {
+        var invertedCharMap = Object.keys(charMap);
+        if (solve(copy, size, charMap, invertedCharMap) === true) {
             setBoard(copy);
         } else {
-            alert("This board is unsolvable!");
+            //alert("This board is unsolvable!");
         }
     }
     
