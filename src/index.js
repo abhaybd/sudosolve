@@ -1,3 +1,5 @@
+// Pre-made by CRA
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
