@@ -2,16 +2,28 @@ import './App.css';
 import React, {useState} from "react";
 import Worker from "./solver.worker.js";
 
+// This is the web worker for solving the board
 const worker = Worker();
 
+// these are the min and max square roots of the min and max sizes
 const minSize = 2;
 const maxSize = 5;
 
+// populate the options list
 const options = [];
 for (let i = minSize; i <= maxSize; i++) {
     options.push(i * i);
 }
 
+/**
+ * Represents an individual cell in the sudoku board.
+ *
+ * @param props The options for this element. row is the row. col is the column. value is the string content of the cell.
+ * size is the size of the board. cellChanged is a callback function that accepts (row, col, value).
+ * disabled may optionally be defined. If it's defined, this cell will be disabled.
+ * @returns {JSX.Element} The element for display.
+ * @constructor
+ */
 function Cell(props) {
     let row = props.row;
     let col = props.col;
@@ -19,13 +31,16 @@ function Cell(props) {
 
     let classes = [];
     const sqrSize = Math.sqrt(props.size);
+    // if the cell is on the horizontal border between sub-grids, mark it as such
     if (row !== 0 && row % sqrSize === 0) {
         classes.push("border-row");
     }
+    // if the cell is on the vertical border between sub-grids, mark it as such
     if (col !== 0 && col % sqrSize === 0) {
         classes.push("border-col");
     }
 
+    // If this cell has some content in it, mark it as filled
     if (value && value !== "") {
         classes.push("filled");
     }
@@ -40,6 +55,12 @@ function Cell(props) {
                   disabled={props.disabled}/>;
 }
 
+/**
+ * Create a deep copy of this sudoku board.
+ *
+ * @param board The board to copy.
+ * @returns {[]} A deep copy of the supplied board.
+ */
 function copyBoard(board) {
     const newBoard = [];
     for (let row of board) {
@@ -52,7 +73,19 @@ function copyBoard(board) {
     return newBoard;
 }
 
+/**
+ * Creates the content element for the webpage.
+ *
+ * @returns {JSX.Element} The element for display.
+ * @constructor
+ */
 function Content() {
+    /**
+     * Create a new empty board of the specified size.
+     *
+     * @param size The size of the new board.
+     * @returns {[]} The newly created board.
+     */
     function createNewBoard(size) {
         const board = [];
         for (let i = 0; i < size; i++) {
@@ -65,6 +98,7 @@ function Content() {
         return board;
     }
 
+    // create the initial states of the component.
     const [size, setSize] = useState(9);
     const [board, setBoard] = useState(createNewBoard(size));
     const [calculating, setCalculating] = useState(false);
@@ -74,10 +108,14 @@ function Content() {
         if (i < 10) {
             charMap[i] = i;
         } else {
-            charMap[String.fromCharCode(55 + i)] = i;
+            // subtract 10 is necessary because 10=>A, 11=>B, etc.
+            charMap[String.fromCharCode("A".charCodeAt(0) - 10 + i)] = i;
         }
     }
 
+    /**
+     * Solve the current board asynchronously, and populate the board with the solution when done.
+     */
     function calculate() {
         worker.onmessage = function (event) {
             setCalculating(false);
@@ -93,15 +131,31 @@ function Content() {
         setCalculating(true);
     }
 
+    /**
+     * Clear all cells in this board.
+     */
     function clear() {
         setBoard(createNewBoard(size));
     }
 
+    /**
+     * Call when the size of the board has changed. This will resize the displayed board.
+     *
+     * @param event The click event of the dropdown
+     */
     function sizeChange(event) {
         setSize(event.target.value);
         setBoard(createNewBoard(event.target.value));
     }
 
+    /**
+     * Call when the contents of a cell has changed. The contents of the cell may not be the same as value,
+     * depending on the formatting rules.
+     *
+     * @param row The row of the cell.
+     * @param col The column of the cell.
+     * @param value The new value to be put into the cell.
+     */
     function cellChanged(row, col, value) {
         value = value.toString().toUpperCase();
         if (value in charMap) {
