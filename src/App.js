@@ -36,7 +36,8 @@ function Cell(props) {
                   className={className}
                   key={row.toString() + "," + col.toString()}
                   onChange={e => props.cellChanged(row, col, e.target.value)}
-                  value={value}/>;
+                  value={value}
+                  disabled={props.disabled}/>;
 }
 
 function copyBoard(board) {
@@ -66,6 +67,7 @@ function Content() {
 
     const [size, setSize] = useState(9);
     const [board, setBoard] = useState(createNewBoard(size));
+    const [calculating, setCalculating] = useState(false);
 
     const charMap = {"": 0};
     for (let i = 1; i <= size; i++) {
@@ -75,9 +77,10 @@ function Content() {
             charMap[String.fromCharCode(55 + i)] = i;
         }
     }
-    
+
     function calculate() {
         worker.onmessage = function (event) {
+            setCalculating(false);
             if (event.data !== null) {
                 setBoard(event.data);
             } else {
@@ -87,8 +90,9 @@ function Content() {
 
         const copy = copyBoard(board);
         worker.postMessage({board: copy, charMap: charMap});
+        setCalculating(true);
     }
-    
+
     function clear() {
         setBoard(createNewBoard(size));
     }
@@ -118,15 +122,18 @@ function Content() {
                 </select>
             </div>
             <div id="board">
-                {board.map((row, i) => <div className="row" key={i}>{row.map((val, j) => <Cell key={i * size + j} row={i}
-                                                                                          col={j} value={val}
-                                                                                          size={size}
-                                                                                          cellChanged={cellChanged}/>)}</div>)}
+                {board.map((row, i) => <div className="row" key={i}>{row.map((val, j) => <Cell key={i * size + j}
+                                                                                               row={i}
+                                                                                               col={j} value={val}
+                                                                                               size={size}
+                                                                                               cellChanged={cellChanged}
+                                                                                               disabled={calculating}/>)}</div>)}
             </div>
             <div id="buttons">
-                <button onClick={calculate}>Solve!</button>
-                <button onClick={clear}>Clear board</button>
+                <button onClick={calculate} disabled={calculating ? calculating : undefined}>Solve!</button>
+                <button onClick={clear} disabled={calculating ? calculating : undefined}>Clear board</button>
             </div>
+            {calculating ? <div id="loading">Loading...</div> : null}
         </div>
     );
 }
