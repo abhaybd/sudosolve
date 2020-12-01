@@ -9,9 +9,7 @@ export function solve(board, size, charMap, invertedCharMap) {
 
                 // Try each possible valid character for this cell, recurse, and undo the change
                 var isValidChar = getValidChars(i, j, board, size, charMap);
-                if (isValidChar.length === 0) {
-                    return false;
-                }
+                var validCount = 0;
                 for (let k = 0; k < isValidChar.length; k++) {
                     if (isValidChar[k]) {
                         board[i][j] = invertedCharMap[k];
@@ -22,7 +20,13 @@ export function solve(board, size, charMap, invertedCharMap) {
                             return result;
                         }
                         board[i][j] = "";
+                        validCount++;
                     }
+                }
+                
+                // If there are no valid solutions for this cell, backtrack
+                if (validCount === 0) {
+                    return false;
                 }
             }
         }
