@@ -1,4 +1,4 @@
-export function solve(board, size, charMap, invertedCharMap) {
+function solve(board, size, charMap, invertedCharMap) {
     // Precompute sets of possible characters in each cell
     var validChars = [];
     for (let i = 0; i < size; i++) {

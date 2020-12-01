@@ -1,6 +1,8 @@
 import './App.css';
 import React, {useState} from "react";
-import {solve} from './solve2.js';
+import Worker from "./solver.worker.js";
+
+const worker = Worker();
 
 const minSize = 2;
 const maxSize = 5;
@@ -75,13 +77,16 @@ function Content() {
     }
     
     function calculate() {
-        const copy = copyBoard(board);
-        var invertedCharMap = Object.keys(charMap);
-        if (solve(copy, size, charMap, invertedCharMap) === true) {
-            setBoard(copy);
-        } else {
-            //alert("This board is unsolvable!");
+        worker.onmessage = function (event) {
+            if (event.data !== null) {
+                setBoard(event.data);
+            } else {
+                alert("This board is unsolvable!");
+            }
         }
+
+        const copy = copyBoard(board);
+        worker.postMessage({board: copy, charMap: charMap});
     }
     
     function clear() {
