@@ -102,6 +102,7 @@ function Content() {
     const [size, setSize] = useState(9);
     const [board, setBoard] = useState(createNewBoard(size));
     const [calculating, setCalculating] = useState(false);
+    const [visualize, setVisualize] = useState(false);
 
     const charMap = {"": 0};
     for (let i = 1; i <= size; i++) {
@@ -111,6 +112,21 @@ function Content() {
             // subtract 10 is necessary because 10=>A, 11=>B, etc.
             charMap[String.fromCharCode("A".charCodeAt(0) - 10 + i)] = i;
         }
+    }
+
+    function solveBoard(board, callback, disableInput = true, visualize = false) {
+        worker.onmessage = function (event) {
+            if (event.data.type === "solution" && disableInput === true) {
+                setCalculating(false);
+            }
+            callback(event.data);
+        }
+
+        if (disableInput) {
+            setCalculating(true);
+        }
+        const copy = copyBoard(board);
+        worker.postMessage({board: copy, charMap: charMap, visualize: visualize});
     }
 
     /**
@@ -125,23 +141,20 @@ function Content() {
             board[0][i] = acceptableVals[a];
             acceptableVals.splice(a, 1);
         }
-        worker.onmessage = function (event) {
-            setCalculating(false);
-            if (event.data !== null) {
-                let copy = event.data;
+
+        solveBoard(board, function (response) {
+            if (response.type === "solution" && response.board !== null) {
+                let copy = response.board;
                 for (let i = 0; i < size; i++) {
                     for (let j = 0; j < size; j++) {
                         if (getRandomInt(10) <= 7) {
-                            copy[i][j] = '';
+                            copy[i][j] = "";
                         }
                     }
                 }
                 setBoard(copy);
             }
-        }
-        setCalculating(true);
-        const copy = copyBoard(board);
-        worker.postMessage({board: copy, charMap: charMap});
+        });
     }
 
     function getRandomInt(max) {
@@ -152,18 +165,17 @@ function Content() {
      * Solve the current board asynchronously, and populate the board with the solution when done.
      */
     function calculate() {
-        worker.onmessage = function (event) {
-            setCalculating(false);
-            if (event.data !== null) {
-                setBoard(event.data);
-            } else {
-                alert("This board is unsolvable!");
+        solveBoard(board, function (response) {
+            if (response.type === "solution") {
+                if (response.board) {
+                    setBoard(response.board);
+                } else {
+                    alert("This board is unsolvable!");
+                }
+            } else if (response.type === "update") {
+                setBoard(response.board);
             }
-        }
-
-        const copy = copyBoard(board);
-        worker.postMessage({board: copy, charMap: charMap});
-        setCalculating(true);
+        }, true, visualize);
     }
 
     /**
@@ -203,12 +215,21 @@ function Content() {
         }
     }
 
+    const disabled = calculating === true ? true : undefined;
+
     return (
         <div id="content">
             <div id="controls">
-                <select value={size} onChange={sizeChange} disabled={calculating ? true : undefined}>
-                    {options.map(size => <option key={size} value={size}>{size}x{size}</option>)}
-                </select>
+                <div>
+                    <select value={size} onChange={sizeChange} disabled={disabled}>
+                        {options.map(size => <option key={size} value={size}>{size}x{size}</option>)}
+                    </select>
+                </div>
+                <div>
+                    Visualize Algorithm:
+                    <input type="checkbox" onChange={e => setVisualize(e.target.checked)} checked={visualize}
+                           disabled={disabled}/>
+                </div>
             </div>
             <div id="board">
                 {board.map((row, i) => <div className="row" key={i}>{row.map((val, j) => <Cell key={i * size + j}
@@ -219,11 +240,9 @@ function Content() {
                                                                                                disabled={calculating}/>)}</div>)}
             </div>
             <div id="buttons">
-                <button onClick={calculate} disabled={calculating ? calculating : undefined}>Solve!</button>
-                <button onClick={createRandomBoard} disabled={calculating ? calculating : undefined}>Generate random
-                    board
-                </button>
-                <button onClick={clear} disabled={calculating ? calculating : undefined}>Clear board</button>
+                <button onClick={calculate} disabled={disabled}>Solve!</button>
+                <button onClick={createRandomBoard} disabled={disabled}>Generate random board</button>
+                <button onClick={clear} disabled={disabled}>Clear board</button>
             </div>
             {calculating ? <div id="loading">Loading...</div> : null}
         </div>

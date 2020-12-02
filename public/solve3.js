@@ -1,4 +1,6 @@
-function solve(board, size, charMap) {
+async function solve(board, size, charMap, callback) {
+    await callback(board);
+
     let candidates = [];
     let solved = true;
     for (let i = 0; i < size; i++) {
@@ -26,7 +28,7 @@ function solve(board, size, charMap) {
         }
         for (let ch of options) {
             board[row][col] = ch;
-            let result = solve(board, size, charMap);
+            let result = await solve(board, size, charMap, callback);
             if (result === true) {
                 return true;
             } else {
