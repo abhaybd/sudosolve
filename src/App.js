@@ -114,6 +114,41 @@ function Content() {
     }
 
     /**
+     * Creates a random board that is guaranteed to be solvable. Automatically renders the board after creation.
+     * Runs asynchronously.
+     */
+    function createRandomBoard() {
+        let board = createNewBoard(size);
+        let acceptableVals = [...Object.keys(charMap)].filter(c => c !== '');
+        for (let i = 0; i < size; i++) {
+            let a = getRandomInt(acceptableVals.length);
+            board[0][i] = acceptableVals[a];
+            acceptableVals.splice(a, 1);
+        }
+        worker.onmessage = function (event) {
+            setCalculating(false);
+            if (event.data !== null) {
+                let copy = event.data;
+                for (let i = 0; i < size; i++) {
+                    for (let j = 0; j < size; j++) {
+                        if (getRandomInt(10) <= 7) {
+                            copy[i][j] = '';
+                        }
+                    }
+                }
+                setBoard(copy);
+            }
+        }
+        setCalculating(true);
+        const copy = copyBoard(board);
+        worker.postMessage({board: copy, charMap: charMap});
+    }
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    /**
      * Solve the current board asynchronously, and populate the board with the solution when done.
      */
     function calculate() {
@@ -185,6 +220,9 @@ function Content() {
             </div>
             <div id="buttons">
                 <button onClick={calculate} disabled={calculating ? calculating : undefined}>Solve!</button>
+                <button onClick={createRandomBoard} disabled={calculating ? calculating : undefined}>Generate random
+                    board
+                </button>
                 <button onClick={clear} disabled={calculating ? calculating : undefined}>Clear board</button>
             </div>
             {calculating ? <div id="loading">Loading...</div> : null}
