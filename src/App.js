@@ -171,7 +171,7 @@ function Content() {
     return (
         <div id="content">
             <div id="controls">
-                <select value={size} onChange={sizeChange}>
+                <select value={size} onChange={sizeChange} disabled={calculating ? true : undefined}>
                     {options.map(size => <option key={size} value={size}>{size}x{size}</option>)}
                 </select>
             </div>
