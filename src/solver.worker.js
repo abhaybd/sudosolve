@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-importScripts("/solve.js");
+importScripts("/solve3.js");
 
 // register message subscriber for web worker
 // This allows the solver algorithm to run in a separate thread, so it won't freeze the UI thread
