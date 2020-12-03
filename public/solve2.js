@@ -1,8 +1,8 @@
 async function solve(board, size, charMap, callback) {
     // Precompute sets of possible characters in each cell
-    var validChars = [];
+    let validChars = [];
     for (let i = 0; i < size; i++) {
-        var row = [];
+        let row = [];
         for (let j = 0; j < size; j++) {
             let set = new Set();
             if (board[i][j] === "") {
@@ -17,9 +17,9 @@ async function solve(board, size, charMap, callback) {
                 }
                 
                 // Chars already used in the same sub-grid are invalid
-                var subSize = Math.floor(Math.sqrt(size));
-                var rowStart = Math.floor(i / subSize) * subSize;
-                var colStart = Math.floor(j / subSize) * subSize;
+                let subSize = Math.floor(Math.sqrt(size));
+                let rowStart = Math.floor(i / subSize) * subSize;
+                let colStart = Math.floor(j / subSize) * subSize;
                 for (let row = rowStart; row < rowStart + subSize; row++) {
                     for (let col = colStart; col < colStart + subSize; col++) {
                         set.delete(charMap[board[row][col]]);
@@ -38,17 +38,15 @@ async function solve(board, size, charMap, callback) {
 async function search(board, size, charMap, validChars, callback) {
     await callback(board);
     
-    var solved = true;
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             if (board[i][j] === "") {
-                solved = false;
                 
                 // Try each possible valid character for this cell, recurse, and undo the change
                 for (let char of validChars[i][j]) {
                     board[i][j] = Object.keys(charMap)[char - 1];
-                    var validCharsCopy = removeValidChars(validChars, i, j, char);
-                    var result = await search(board, size, charMap, validCharsCopy, callback);
+                    let validCharsCopy = removeValidChars(validChars, i, j, char);
+                    let result = await search(board, size, charMap, validCharsCopy, callback);
 
                     // If this change resulted in a solution for the entire board, stop recursing
                     if (result === true) {
@@ -57,21 +55,21 @@ async function search(board, size, charMap, validChars, callback) {
                     board[i][j] = "";
                 }
                 
-                // If there are no valid solutions for this cell, backtrack
+                // If there are no paths to a solution for the board, backtrack
                 return false;
             }
         }
     }
-    return solved;
+    return true;
 }
 
 // Update the sets of valid characters for all cells in the same row, column or subgrid as cell (m, n)
 function removeValidChars(validChars, m, n, removeChar) {
-    var copy = [];
+    let copy = [];
     for (let i = 0; i < validChars.length; i++) {
-        var row = [];
+        let row = [];
         for (let j = 0; j < validChars[i].length; j++) {
-            var set = new Set();
+            let set = new Set();
             for (let char of validChars[i][j]) {
                 if ((i !== m && j !== n && !sameSubgrid(i, j, m, n, validChars.length)) ||
                     char !== removeChar) {
@@ -87,7 +85,7 @@ function removeValidChars(validChars, m, n, removeChar) {
 
 // Returns whether or not cell (row1, col1) is in the sub-grid as (row2, col2)
 function sameSubgrid(row1, col1, row2, col2, size) {
-    var subSize = Math.floor(Math.sqrt(size));
+    let subSize = Math.floor(Math.sqrt(size));
     return Math.floor(row1 / subSize) === Math.floor(row2 / subSize) &&
            Math.floor(col1 / subSize) === Math.floor(col2 / subSize);
 }

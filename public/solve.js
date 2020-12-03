@@ -1,16 +1,13 @@
 async function solve(board, size, charMap, callback) {
     await callback(board);
     
-    var count = 0;
-    var solved = true;
+    let count = 0;
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             if (board[i][j] === "") {
                 count++;
-                solved = false;
 
                 // Try each possible valid character for this cell, recurse, and undo the change
-                var validCount = 0;
                 for (let k = 0; k < size; k++) {
                     if (!inColumn(k + 1, j, board, charMap) &&
                         !inRow(k + 1, i, board, charMap) &&
@@ -22,18 +19,17 @@ async function solve(board, size, charMap, callback) {
                         if (await solve(board, size, charMap, callback)) {
                             return true;
                         }
-
+                        
                         board[i][j] = "";
-                        validCount++;
                     }
                 }
                 
-                // If there are no valid solutions for this cell, backtrack
+                // If there are no paths to a solution for the board, backtrack
                 return false;
             }
         }
     }
-    return solved;
+    return true;
 }
 
 function inColumn(char, col, board, charMap) {
@@ -55,9 +51,9 @@ function inRow(char, row, board, charMap) {
 }
 
 function inSubgrid(char, row, col, board, charMap) {
-    var subSize = Math.floor(Math.sqrt(board.length));
-    var rowStart = Math.floor(row / subSize) * subSize;
-    var colStart = Math.floor(col / subSize) * subSize;
+    let subSize = Math.floor(Math.sqrt(board.length));
+    let rowStart = Math.floor(row / subSize) * subSize;
+    let colStart = Math.floor(col / subSize) * subSize;
     for (let i = rowStart; i < rowStart + subSize; i++) {
         for (let j = colStart; j < colStart + subSize; j++) {
             if (charMap[board[i][j]] === char) {
