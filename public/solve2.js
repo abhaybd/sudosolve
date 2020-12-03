@@ -1,4 +1,4 @@
-function solve(board, size, charMap, invertedCharMap) {
+async function solve(board, size, charMap, callback) {
     // Precompute sets of possible characters in each cell
     var validChars = [];
     for (let i = 0; i < size; i++) {
@@ -25,35 +25,30 @@ function solve(board, size, charMap, invertedCharMap) {
                         set.delete(charMap[board[row][col]]);
                     }
                 }
-                
             }
             row.push(set);
         }
         validChars.push(row);
     }
     
-    return search(board, size, charMap, invertedCharMap, validChars);
+    return await search(board, size, charMap, validChars, callback);
 }
 
 // Depth-first search the solution space
-function search(board, size, charMap, invertedCharMap, validChars) {
+async function search(board, size, charMap, validChars, callback) {
+    await callback(board);
+    
     var solved = true;
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             if (board[i][j] === "") {
                 solved = false;
                 
-                // If there are no possible solutions for this cell, backtrack
-                if (validChars[i][j].size === 0) {
-                    //console.log(i + " " + j);
-                    return false;
-                }
-
                 // Try each possible valid character for this cell, recurse, and undo the change
                 for (let char of validChars[i][j]) {
-                    board[i][j] = invertedCharMap[char - 1];
+                    board[i][j] = Object.keys(charMap)[char - 1];
                     var validCharsCopy = removeValidChars(validChars, i, j, char);
-                    var result = search(board, size, charMap, invertedCharMap, validCharsCopy);
+                    var result = await search(board, size, charMap, validCharsCopy, callback);
 
                     // If this change resulted in a solution for the entire board, stop recursing
                     if (result === true) {
@@ -61,6 +56,9 @@ function search(board, size, charMap, invertedCharMap, validChars) {
                     }
                     board[i][j] = "";
                 }
+                
+                // If there are no valid solutions for this cell, backtrack
+                return false;
             }
         }
     }

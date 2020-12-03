@@ -1,4 +1,6 @@
-function solve(board, size, charMap, invertedCharMap) {
+async function solve(board, size, charMap, callback) {
+    await callback(board);
+    
     var count = 0;
     var solved = true;
     for (let i = 0; i < size; i++) {
@@ -14,10 +16,10 @@ function solve(board, size, charMap, invertedCharMap) {
                         !inRow(k + 1, i, board, charMap) &&
                         !inSubgrid(k + 1, i, j, board, charMap)) {
                         
-                        board[i][j] = invertedCharMap[k];
+                        board[i][j] = Object.keys(charMap)[k];
                         
                         // If this change resulted in a solution for the entire board, stop recursing
-                        if (solve(board, size, charMap, invertedCharMap)) {
+                        if (await solve(board, size, charMap, callback)) {
                             return true;
                         }
 
@@ -27,9 +29,7 @@ function solve(board, size, charMap, invertedCharMap) {
                 }
                 
                 // If there are no valid solutions for this cell, backtrack
-                if (validCount === 0) {
-                    return false;
-                }
+                return false;
             }
         }
     }
