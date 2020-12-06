@@ -30,9 +30,47 @@ solved.
 
 ### Full Algorithm
 1. Find candidate values for each of the board's unsolved squares.
-2. Determine the square with least number of candidate values. For each of the candidate
-   values, fill said square with that value and recurse.
-3. Repeat steps 1 and 2 until board is solved.
+2. If any unfilled square has zero candidates, backtrack.
+3. Determine the square with least number of candidates.
+4. For each of the candidate values, fill said square with that value.
+5. If the board is now solved, return.
+6. Otherwise, recurse and repeat steps 1-5 until board is either solved or determined to be completely unsolvable.
 
 # User Interface
-TODO
+
+The frontend was built using React.js, and communicates with the solver algorithms (which run on a separate web worker) via messages.
+
+<img src="ui-screenshot.png" height="300px"/>
+
+## Controls
+
+### Size
+
+SudoSolve® supports solving sudoku boards of size `4x4`, `9x9`, `16x16`, or `25x25`. Solving larger boards will require more time, especially for more challenging puzzles with less hints, but the UI remains responsive and lagless at all times, regardless of the computational load.
+
+### Visualizer
+
+You can also optionally visualize the backtracking algorithm at work. This option is by default disabled since it slows down the solver quite a bit (so it can operate at a speed that humans can see), but you can enable it before solving by enabling the check box. Once the algorithm starts solving, you will see what values it is trying to place in which squares.
+
+### Manual Input
+
+If you would like to solve a specific puzzle, you can directly type symbols into the sudoku board. All input is automatically validated, which means it's impossible to accidentally enter improper or illegal input, since the website will not let you type illegal symbols. Legal input is determined by the size of the board.
+
+| Board Size | Valid Input  |
+| ---------- | ------------ |
+| `4x4`      | `1-4`        |
+| `9x9`      | `1-9`        |
+| `16x16`    | `1-9`, `A-G` |
+| `25x25`    | `1-9`, `A-P` |
+
+### Solve
+
+When you click solve, the solving algorithm gets to work! All input is disabled while the solver is working, to prevent any user input from getting overwritten. When the solver starts, the UI thread serializes the board and dispatches it to the web worker where the solver algorithm is running. On the web worker, the solver can run without fear of blocking or lagging the UI thread.
+
+### Random Board Generation
+
+If you don't want to type in an entire puzzle by hand, you can also generate a random board. SudoSolve® supports generating random boards of any size, however it will take longer to generate boards of size `25x25`. All randomly generated boards are *guaranteed* to be solvable.
+
+### Clear Board
+
+Instead of refreshing the page or manually clearing the entire board, you can just click `Clear board` and all cells will be automatically emptied.
