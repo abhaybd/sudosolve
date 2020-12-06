@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# SudoSolve®
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to SudoSolve®! In this guide you'll find instructions on how to compile and run this project.
 
-## Available Scripts
+Since Ed workspaces don't have enough space to house React.js dependencies, we've included the output of `npm run build` in the `build` folder.
 
-In the project directory, you can run:
+## How to create a build
 
-### `npm start`
+If you are running this outside of the Ed workspace or want to create a new build, simply run `npm run build` while in the project root. This will create a new build in the `build` subfolder.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## How to run the project
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Run from source
 
-### `npm test`
+If you'd like to run the project from source (you will not be able to do this on Ed) you can simply run `npm run start`. Then, you can access the running webapp at `localhost:3000`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Run a previously created build
 
-### `npm run build`
+However, most likely you'd like to run this app from the Ed workspace. In this case, you need to serve the files from the build folder. For convenience, we've included a `run.sh` script in the project root which automates this process. Therefore, all you need to do is run the command `./run.sh` while in the project root. This will serve the webapp at `127.0.0.1:8000`. You can access it by clicking the Network icon, and then clicking the entry that shows `HOST: 127.0.0.1:8000`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you'd prefer, you can use any of the methods described [here](https://gist.github.com/willurd/5720255) to serve the files instead.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to use the project
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Select a board size using the dropdown. The available sizes are `4x4`, `9x9`, `16x16`, and `25x25`.
 
-### `npm run eject`
+If you'd like, you can optionally visualize the algorithm's process in solving the puzzle. This will significantly slow the code down. If you want to visualize it, check the `Visualize Algorithm` checkbox.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Manually fill in a puzzle
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+If you want to manually fill in a puzzle, you can do so by typing into the board. You will not be able to type invalid characters into the sudoku board.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+These are the valid characters for each board size:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+| Board Size | Valid Input  |
+| ---------- | ------------ |
+| `4x4`      | `1-4`        |
+| `9x9`      | `1-9`        |
+| `16x16`    | `1-9`, `A-G` |
+| `25x25`    | `1-9`, `A-P` |
 
-## Learn More
+### Generate random board
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+If you don't want to manually enter an entire puzzle, you can click `Generate random board` to create a new random board. This board is guaranteed to be solvable.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Solve
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To solve the sudoku board, just click `Solve!` All UI input will be disabled while the algorithm is running, so just sit back and let it think!
