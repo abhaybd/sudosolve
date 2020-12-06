@@ -40,7 +40,7 @@ solved.
 
 The frontend was built using React.js, and communicates with the solver algorithms (which run on a separate web worker) via messages.
 
-<img src="ui-screenshot.png" height="300px"/>
+<img src="/ui-screenshot.PNG" height="300px"/>
 
 ## Controls
 
