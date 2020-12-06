@@ -30,7 +30,7 @@ solved.
 
 ### Full Algorithm
 1. Find candidate values for each of the board's unsolved squares.
-2. Determine the square with least candidate values. For each of the candidate
+2. Determine the square with least number of candidate values. For each of the candidate
    values, fill said square with that value and recurse.
 3. Repeat steps 1 and 2 until board is solved.
 
