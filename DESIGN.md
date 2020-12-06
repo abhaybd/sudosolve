@@ -34,5 +34,5 @@ solved.
    values, fill said square with that value and recurse.
 3. Repeat steps 1 and 2 until board is solved.
 
-## User Interface
+# User Interface
 TODO
