@@ -67,6 +67,8 @@ If you would like to solve a specific puzzle, you can directly type symbols into
 
 When you click solve, the solving algorithm gets to work! All input is disabled while the solver is working, to prevent any user input from getting overwritten. When the solver starts, the UI thread serializes the board and dispatches it to the web worker where the solver algorithm is running. On the web worker, the solver can run without fear of blocking or lagging the UI thread.
 
+This is better than simply using `async` functions, because `async` functions don't use true multithreading. Instead, `async` functions simulate parallel processing by frequently yielding control of the thread while the interpreter switches back and forth between multiple code paths. In contrast, a web worker actually runs on its own thread, completely separate from the UI thread. Since it never has to yield control of the thread to any other code paths, the overhead of context switching is eliminated, so the solver algorithm can run faster and more efficiently.
+
 ### Random Board Generation
 
 If you don't want to type in an entire puzzle by hand, you can also generate a random board. SudoSolve® supports generating random boards of any size, however it will take longer to generate boards of size `25x25`. All randomly generated boards are *guaranteed* to be solvable.
