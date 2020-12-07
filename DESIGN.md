@@ -53,7 +53,7 @@ The frontend was built using React.js, and communicates with the solver algorith
 
 ## Controls
 
-We designed the controls to be as intuitive and self-explanatory as possible. Each button is very clearly labeled with an explanation of what it does.
+We designed the controls to be as intuitive and self-explanatory as possible. Each button is very clearly labeled with an explanation of what it does and instructions explaining how to use all the included functions, and their respective drawbacks are detailed on the page.
 
 To make the UX easier, we also do automatic input validation when users are filling out the sudoku board. Each board size has valid characters. For example, `4x4` boards only accept characters in the range `1-4`. We designed the UI such that the user is unable to enter invalid characters. This makes it much harder to pass malformed or invalid input.
 
