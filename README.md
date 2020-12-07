@@ -8,7 +8,7 @@ Since Ed workspaces don't have enough space to house React.js dependencies, we'v
 
 If you are running this outside of the Ed workspace or want to create a new build, simply run `npm run build` while in the project root. This will create a new build in the `build` subfolder.
 
-## How to run the project
+## How to run the app
 
 ### Run from source
 
@@ -18,7 +18,7 @@ If you'd like to run the project from source (you will not be able to do this on
 
 However, most likely you'd like to run this app from the Ed workspace. In this case, you need to serve the files from the build folder. For convenience, we've included a `run.sh` script in the project root which automates this process. Therefore, all you need to do is run the command `./run.sh` while in the project root. This will serve the webapp at `127.0.0.1:8000`. You can access it by clicking the Network icon, and then clicking the entry that shows `HOST: 127.0.0.1:8000`.
 
-## How to use the project
+## How to use the app
 
 Select a board size using the dropdown. The available sizes are `4x4`, `9x9`, `16x16`, and `25x25`.
 
