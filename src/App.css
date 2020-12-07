@@ -27,29 +27,6 @@
 .App-link {
   color: #61dafb;
 }
-h2{
-  font-size: 30px;
-  margin-bottom: 5px;
-  border-bottom: 0px;
-  padding-bottom: 0px;
-
-}
-p{
-  width: 60%;
-  padding:5px 0px 5px 0px;
-  margin:0px 0px 0px 0px;
-}
-ol{
-  text-align: left;
-  font-size: 18px;
-  padding-left: 500px;
-  padding-top: 0px;
-  margin-top: 0px;
-  border-top: 0px;
-}
-#note{
-  font-style: italic;
-}
 
 #controls {
   font-size: 15px;
@@ -114,14 +91,11 @@ a {
   margin-top: 5px;
 }
 
-#buttons > button:hover:enabled {
-  background-color: #e6c870;
-}
-
 .panel {
   background-color: #f8f3d4;
   padding: 30px 50px 30px 50px;
   border-radius: 50px;
+  color: black;
 }
 
 button {
@@ -131,8 +105,113 @@ button {
   margin: 0;
 }
 
+button:hover:enabled {
+  background-color: #e6c870;
+}
+
 #loading {
   color: black;
   margin-top: 10px;
   font-size: 15px;
+}
+
+#instructions-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  padding: 5px;
+}
+
+#instructions-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 50vw;
+  padding: 15px 25px;
+  opacity: 0.9;
+}
+
+#instructions li > p {
+  margin: 0;
+  position: relative;
+  left: 4ch;
+}
+
+#instructions h2 {
+  font-size: 30px;
+}
+
+#instructions ol {
+  text-align: left;
+  font-size: 18px;
+}
+
+.note {
+  font-style: italic;
+}
+
+#close-button {
+  position: absolute;
+  left: 25px;
+  top: 25px;
+}
+
+/*
+The following fade in code was taken from here:
+https://medium.com/cloud-native-the-gathering/how-to-use-css-to-fade-in-and-fade-out-html-text-and-pictures-f45c11364f08
+*/
+
+.fade-in {
+  animation: fadeIn ease 0.8s;
+  -webkit-animation: fadeIn ease 0.8s;
+  -moz-animation: fadeIn ease 0.8s;
+  -o-animation: fadeIn ease 0.8s;
+  -ms-animation: fadeIn ease 0.8s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.9;
+  }
 }

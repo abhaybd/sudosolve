@@ -1,6 +1,7 @@
 import './App.css';
 import React, {useState} from "react";
 import Worker from "./solver.worker.js";
+import closeSvg from "./x-square-fill.svg";
 
 // This is the web worker for solving the board
 const worker = Worker();
@@ -250,29 +251,51 @@ function Content() {
 }
 
 function App() {
+    const [showInstructions, setShowInstructions] = useState(false);
+
+    let instructionsPanel = null;
+    // show the instructions modal if we're supposed to
+    if (showInstructions === true) {
+        instructionsPanel = (
+            <div id="instructions-panel" className="panel fade-in">
+                <div id="instructions">
+                    <img src={closeSvg} id="close-button" onClick={() => setShowInstructions(false)}/>
+                    <h2>
+                        Instructions
+                    </h2>
+                    <ol>
+                        <li>
+                            Input your sudoku board 1-9 and A-P representing 10-25 (A: 10, B: 11, C: 12 . . . P: 25)
+                        </li>
+                        <li>
+                            You can optionally click the visualize algorithm button which will show you the board as it
+                            is being solved
+                            <p className="note">
+                                Note: this will significantly slow down the rate at which the board is solved
+                            </p>
+                        </li>
+                        <li>Click solve and the program will present a finished board</li>
+                        <li>Clear the Board and start again</li>
+                        <p>If you don't want to type in your own puzzle, clicking the "Generate random board" button
+                            will present you with a puzzle that is guaranteed to be solvable</p>
+                    </ol>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="App">
             <header className="App-header">
                 <h1>
                     SudoSolve®
                 </h1>
+                <button id="instructions-button" onClick={() => setShowInstructions(!showInstructions)}>
+                    {showInstructions === true ? "Hide instructions" : "Show instructions"}
+                </button>
+                {instructionsPanel}
                 <div className="panel">
                     <Content/>
-                </div>
-                <div id="instructions">
-                    <h2>
-                        Instructions
-                    </h2>
-                    <ol>
-                        <li> Input your sudoku board 1-9 and A-P representing 10-25 (A: 10, B:11, C:12 . . . P:25 )</li>
-                        <li> You can optionally click the visualize algorithm button which will show you the board as it is being solved
-                        <p id="note"> Note: this will significantly slow down the rate at which the board is solved</p></li>
-                        <li>Click solve and the program will present a finished board</li>
-                        <li> Clear the Board and start again</li>
-                        <p> If you don't want to type in your own puzzle, clicking the Generate random board
-                            will present you with a puzzle that is guaranteed to be solvable </p>
-
-                    </ol>
                 </div>
             </header>
             <div id="footer">
