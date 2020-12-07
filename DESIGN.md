@@ -65,7 +65,9 @@ Additionally, when the solver algorithm is running, all user input is locked and
 You can also optionally visualize the backtracking algorithm at work. This option is by default disabled since it slows down the solver quite a bit (so it can operate at a speed that humans can see), but you can enable it before solving by enabling the check box. Once the algorithm starts solving, you will see what values it is trying to place in which squares.
 
 We included this feature so that users can see the underlying decision making process that our algorithms use. To use this, we needed to be able to "hook" the solver algorithm back into the UI so it could display the board while it's solving it. We accomplished this by designing multiple message "types", which the web worker process can us to communicate with the UI thread. `update` messages tell the UI that the solver algorithm is still working, but includes a serialized board to display to the user. `solution` messages communicate that the solving process is done, and includes a serialized board which represents the solved board.
+### Board Generator
 
+To test the solver or if the user wants to play a board we have included a "Generate random board" button which creates a sudoku puzzle that is gaurenteed to be solvable. Each board is created by randomly placing values in the first row and solving the board with that row as the only input. Then we take the solved board and randomly remove 80% of the characters and display the board with the missing characters.
 ### Dispatching events to the Solver
 
 When you click solve, the solving algorithm gets to work! All input is disabled while the solver is working, to prevent any user input from getting overwritten. When the solver starts, the UI thread serializes the board and dispatches it to the web worker where the solver algorithm is running. On the web worker, the solver can run without fear of blocking or lagging the UI thread.
