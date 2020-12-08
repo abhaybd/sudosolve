@@ -1,6 +1,7 @@
 async function solve(board, size, charMap, callback) {
     await callback(board);
 
+    const candidateBoard = getCandidatesBoard(board, size, charMap);
     let candidates = [];
     // init to true. If we don't find any empty squares, the board is already solved.
     let solved = true;
@@ -9,7 +10,7 @@ async function solve(board, size, charMap, callback) {
             if (board[i][j] === "") {
                 solved = false; // We found an empty square, so this board is not solved yet
                 // save the candidates for this square
-                candidates.push([i, j, getCandidates(board, size, charMap, i, j)]);
+                candidates.push([i, j, candidateBoard[i][j]]);
             }
         }
     }
@@ -52,48 +53,65 @@ async function solve(board, size, charMap, callback) {
     return solved;
 }
 
-/**
- * Get the candidates for a particular square in a sudoko board.
- *
- * @param board The sudoku board object. A square 2d array of size `size`.
- * @param size The size of the sudoku board.
- * @param charMap A JS object where the keys are valid sudoku characters
- * (including the empty string) and the values are the "index" of those characters, used for
- * relative ordering. The value for "" is 0.
- * @param row The row of the square for which to find the candidates.
- * @param col The column of the square for which to find the candidates.
- * @returns {Set<any>} A set of all possible candidates.
- * This set will be a subset of the keyset of `charMap`.
- */
-function getCandidates(board, size, charMap, row, col) {
-    // if the square is already filled, there are no possible candidates
-    if (board[row][col] !== "") {
-        return new Set();
-    }
+function getCandidatesBoard(board, size, charMap) {
+    const defCandidates = new Set();
+    Object.keys(charMap).forEach(ch => defCandidates.add(ch));
+    defCandidates.delete(""); // the empty string is not an option, so remove it
 
-    // Initialize the candidates set with all possible options
-    const candidates = new Set();
-    Object.keys(charMap).forEach(ch => candidates.add(ch));
-    candidates.delete(""); // the empty string is not an option, so remove it
-
-    // Search through all squares in the same row and column as this square, and delete all
-    // characters that appear this prevents duplicate values in the same row and column
+    const candidateBoard = [];
     for (let i = 0; i < size; i++) {
-        candidates.delete(board[row][i]);
-        candidates.delete(board[i][col]);
+        const row = [];
+        for (let j = 0; j < size; j++) {
+            row.push(board[i][j] === "" ? new Set(defCandidates) : new Set());
+        }
+        candidateBoard.push(row);
     }
 
-    // search through this square's subgrid and delete all characters that appear
-    // this prevents duplicate values in the same subgrid
-    let subGridSize = Math.round(Math.sqrt(size));
-    // row and col of the upper left corner of the subgrid
-    let rowStart = subGridSize * Math.floor(row / subGridSize);
-    let colStart = subGridSize * Math.floor(col / subGridSize);
-    for (let r = rowStart; r < rowStart + subGridSize; r++) {
-        for (let c = colStart; c < colStart + subGridSize; c++) {
-            candidates.delete(board[r][c]);
+    // iterate over row
+    for (let row = 0; row < size; row++) {
+        let set = new Set();
+        for (let col = 0; col < size; col++) {
+            set.add(board[row][col]);
+        }
+        for (let col = 0; col < size; col++) {
+            if (candidateBoard[row][col].size > 0) {
+                [...set].forEach(ch => candidateBoard[row][col].delete(ch));
+            }
         }
     }
 
-    return candidates;
+    // iterate over col
+    for (let col = 0; col < size; col++) {
+        let set = new Set();
+        for (let row = 0; row < size; row++) {
+            set.add(board[row][col]);
+        }
+        for (let row = 0; row < size; row++) {
+            if (candidateBoard[row][col].size > 0) {
+                [...set].forEach(ch => candidateBoard[row][col].delete(ch));
+            }
+        }
+    }
+
+    // iterate over subgrids
+    const subGridSize = Math.round(Math.sqrt(size));
+    for (let i = 0; i < size; i++) {
+        const rowStart = (i % subGridSize) * subGridSize;
+        const colStart = Math.floor(i / subGridSize) * subGridSize;
+        let set = new Set();
+        for (let row = rowStart; row < rowStart + subGridSize; row++) {
+            for (let col = colStart; col < colStart + subGridSize; col++) {
+                set.add(board[row][col]);
+            }
+        }
+        for (let row = rowStart; row < rowStart + subGridSize; row++) {
+            for (let col = colStart; col < colStart + subGridSize; col++) {
+                if (candidateBoard[row][col].size > 0) {
+                    [...set].forEach(ch => candidateBoard[row][col].delete(ch));
+                }
+            }
+        }
+    }
+
+    return candidateBoard;
 }
