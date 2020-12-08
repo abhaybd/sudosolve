@@ -6,6 +6,7 @@ importScripts("/solve3.js");
 onmessage = function (e) {
     const {board, charMap, visualize, delay} = e.data;
 
+    // this is the callback function used to send updates for visualization to the UI
     async function callback(board) {
         if (visualize === true) {
             postMessage({type: "update", board: board})
