@@ -148,7 +148,7 @@ function Content() {
                 let copy = response.board;
                 for (let i = 0; i < size; i++) {
                     for (let j = 0; j < size; j++) {
-                        if (getRandomInt(10) <= 7) {
+                        if (getRandomInt(10) < 5) {
                             copy[i][j] = "";
                         }
                     }
