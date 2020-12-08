@@ -259,7 +259,7 @@ function App() {
         instructionsPanel = (
             <div id="instructions-panel" className="panel fade-in">
                 <div id="instructions">
-                    <img src={closeSvg} id="close-button" onClick={() => setShowInstructions(false)}/>
+                    <img alt="" src={closeSvg} id="close-button" onClick={() => setShowInstructions(false)}/>
                     <h2>
                         Instructions
                     </h2>
