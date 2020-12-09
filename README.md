@@ -16,7 +16,7 @@ If you'd like to run the project from source (you will not be able to do this on
 
 ### Run a previously created build
 
-However, most likely you'd like to run this app from the Ed workspace. In this case, you need to serve the files from the build folder. For convenience, we've included a `run.sh` script in the project root which automates this process. Therefore, all you need to do is run the command `./run.sh` while in the project root. This will serve the webapp at `127.0.0.1:8000`. You can access it by clicking the Network icon, and then clicking the entry that shows `HOST: 127.0.0.1:8000`.
+However, most likely you'd like to run this app from the Ed workspace. In this case, you need to serve the files from the build folder. For convenience, we've included a `run.sh` script in the project root which automates this process. Therefore, all you need to do is navigate to the project root with `cd ~/sudosolve` and then run the command `./run.sh`. This will serve the webapp at `127.0.0.1:8000`. You can access it by clicking the Network icon, and then clicking the entry that shows `HOST: 127.0.0.1:8000`.
 
 ## How to use the app
 
