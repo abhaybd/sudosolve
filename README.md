@@ -20,7 +20,7 @@ However, most likely you'd like to run this app from the Ed workspace. In this c
 
 ## How to use the app
 
-Select a board size using the dropdown. The available sizes are `4x4`, `9x9`, `16x16`, and `25x25`.
+Select a board size using the dropdown. The available sizes are `4x4`, `9x9`, `16x16`, and `25x25`. The solver is confirmed to work on `25x25`, but it takes a while.
 
 If you'd like, you can optionally visualize the algorithm's process in solving the puzzle. This will significantly slow the code down. If you want to visualize it, check the `Visualize Algorithm` checkbox.
 
