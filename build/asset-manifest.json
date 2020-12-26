@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.4387f788.chunk.css",
-    "main.js": "/static/js/main.ded4aeb9.chunk.js",
-    "main.js.map": "/static/js/main.ded4aeb9.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.2a7653fa.js",
-    "runtime-main.js.map": "/static/js/runtime-main.2a7653fa.js.map",
-    "static/js/2.ee0a1709.chunk.js": "/static/js/2.ee0a1709.chunk.js",
-    "static/js/2.ee0a1709.chunk.js.map": "/static/js/2.ee0a1709.chunk.js.map",
-    "static/js/3.931b9ae7.chunk.js": "/static/js/3.931b9ae7.chunk.js",
-    "static/js/3.931b9ae7.chunk.js.map": "/static/js/3.931b9ae7.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.4387f788.chunk.css.map": "/static/css/main.4387f788.chunk.css.map",
-    "static/js/2.ee0a1709.chunk.js.LICENSE.txt": "/static/js/2.ee0a1709.chunk.js.LICENSE.txt",
-    "static/js/solver.worker.b9fd836f.worker.js": "/static/js/solver.worker.b9fd836f.worker.js",
-    "static/js/solver.worker.b9fd836f.worker.js.map": "/static/js/solver.worker.b9fd836f.worker.js.map",
-    "static/media/x-square-fill.96731b0c.svg": "/static/media/x-square-fill.96731b0c.svg"
+    "main.css": "/sudosolve/static/css/main.2d4e0416.chunk.css",
+    "main.js": "/sudosolve/static/js/main.b0e1844b.chunk.js",
+    "main.js.map": "/sudosolve/static/js/main.b0e1844b.chunk.js.map",
+    "runtime-main.js": "/sudosolve/static/js/runtime-main.f0c73823.js",
+    "runtime-main.js.map": "/sudosolve/static/js/runtime-main.f0c73823.js.map",
+    "static/js/2.ee0a1709.chunk.js": "/sudosolve/static/js/2.ee0a1709.chunk.js",
+    "static/js/2.ee0a1709.chunk.js.map": "/sudosolve/static/js/2.ee0a1709.chunk.js.map",
+    "static/js/3.931b9ae7.chunk.js": "/sudosolve/static/js/3.931b9ae7.chunk.js",
+    "static/js/3.931b9ae7.chunk.js.map": "/sudosolve/static/js/3.931b9ae7.chunk.js.map",
+    "index.html": "/sudosolve/index.html",
+    "static/css/main.2d4e0416.chunk.css.map": "/sudosolve/static/css/main.2d4e0416.chunk.css.map",
+    "static/js/2.ee0a1709.chunk.js.LICENSE.txt": "/sudosolve/static/js/2.ee0a1709.chunk.js.LICENSE.txt",
+    "static/js/solver.worker.41900648.worker.js": "/sudosolve/static/js/solver.worker.41900648.worker.js",
+    "static/js/solver.worker.41900648.worker.js.map": "/sudosolve/static/js/solver.worker.41900648.worker.js.map",
+    "static/media/x-square-fill.3b574962.svg": "/sudosolve/static/media/x-square-fill.3b574962.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.2a7653fa.js",
+    "static/js/runtime-main.f0c73823.js",
     "static/js/2.ee0a1709.chunk.js",
-    "static/css/main.4387f788.chunk.css",
-    "static/js/main.ded4aeb9.chunk.js"
+    "static/css/main.2d4e0416.chunk.css",
+    "static/js/main.b0e1844b.chunk.js"
   ]
 }
