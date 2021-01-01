@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/sudosolve/static/css/main.2d4e0416.chunk.css",
-    "main.js": "/sudosolve/static/js/main.b0e1844b.chunk.js",
-    "main.js.map": "/sudosolve/static/js/main.b0e1844b.chunk.js.map",
+    "main.js": "/sudosolve/static/js/main.ff938499.chunk.js",
+    "main.js.map": "/sudosolve/static/js/main.ff938499.chunk.js.map",
     "runtime-main.js": "/sudosolve/static/js/runtime-main.f0c73823.js",
     "runtime-main.js.map": "/sudosolve/static/js/runtime-main.f0c73823.js.map",
     "static/js/2.ee0a1709.chunk.js": "/sudosolve/static/js/2.ee0a1709.chunk.js",
@@ -12,14 +12,14 @@
     "index.html": "/sudosolve/index.html",
     "static/css/main.2d4e0416.chunk.css.map": "/sudosolve/static/css/main.2d4e0416.chunk.css.map",
     "static/js/2.ee0a1709.chunk.js.LICENSE.txt": "/sudosolve/static/js/2.ee0a1709.chunk.js.LICENSE.txt",
-    "static/js/solver.worker.41900648.worker.js": "/sudosolve/static/js/solver.worker.41900648.worker.js",
-    "static/js/solver.worker.41900648.worker.js.map": "/sudosolve/static/js/solver.worker.41900648.worker.js.map",
+    "static/js/solver.worker.4a626272.worker.js": "/sudosolve/static/js/solver.worker.4a626272.worker.js",
+    "static/js/solver.worker.4a626272.worker.js.map": "/sudosolve/static/js/solver.worker.4a626272.worker.js.map",
     "static/media/x-square-fill.3b574962.svg": "/sudosolve/static/media/x-square-fill.3b574962.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.f0c73823.js",
     "static/js/2.ee0a1709.chunk.js",
     "static/css/main.2d4e0416.chunk.css",
-    "static/js/main.b0e1844b.chunk.js"
+    "static/js/main.ff938499.chunk.js"
   ]
 }
